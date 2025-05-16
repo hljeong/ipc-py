@@ -2,12 +2,14 @@
 
 ## usage
 ```sh
+cd ipc
+
 # start server
-waitress-serve ipc:app
+waitress-serve server:app
 
 # start listening client
-python client.py -m cat
+python client.py cat
 
 # start sending client
-python client.py -m read
+python client.py read
 ```

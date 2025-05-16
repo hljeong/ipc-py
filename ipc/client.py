@@ -33,9 +33,9 @@ def send(message: str, channel: str = "default"):
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument(
-        "-m",
-        "--mode",
+        "mode",
         type=str,
+        nargs="?",
         default="interactive",
         help="choose from [interactive, cat, read]",
     )
@@ -47,12 +47,19 @@ if __name__ == "__main__":
             embed(display_banner=False, colors="neutral")
 
         case "cat":
-            while True:
-                print(listen(args.channel)["value"])
+            try:
+                while True:
+                    print(listen(args.channel)["value"])
+            except KeyboardInterrupt:
+                pass
 
         case "read":
-            for line in sys.stdin:
-                send(line[:-1], args.channel)
+            try:
+                for line in sys.stdin:
+                    send(line[:-1], args.channel)
+            except KeyboardInterrupt:
+                pass
 
         case _:
-            raise ValueError(f"unknown mode: {args.mode}")
+            print(f"unknown mode: {args.mode}")
+            exit(1)
